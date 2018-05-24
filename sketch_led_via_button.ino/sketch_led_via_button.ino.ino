@@ -1,8 +1,10 @@
 
+// lightup led via pushbutton. Pushbutton uses pullup resistor
+// we have basic debounce implemented as well as "session state" for button
+
 const int ledPin = 2;
 const int buttonPin = 6;     // the number of the pushbutton pin
 
-// variables will change:
 int buttonState;         // variable for reading the pushbutton status
 int ledState = HIGH;
 int lastButtonState = LOW;
@@ -62,14 +64,7 @@ void loop() {
 
   // save the reading. Next time through the loop, it'll be the lastButtonState:
   lastButtonState = reading;
-  
-  
-  
-  
-
-
-
-  
+   
   
  
 }
