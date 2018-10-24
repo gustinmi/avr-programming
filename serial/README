@@ -1,0 +1,10 @@
+SPI Pins
+– MOSI (master out, slave in)
+– MISO (master in, slave out)
+– SCK (serial clock)
+– SS (slave select, optional)
+• SPI Registers
+– SPDR (transferred data read/write register)
+– SPCR (control register)
+– SPSR (status register)
+– SPI Transfer Complete interrupt
