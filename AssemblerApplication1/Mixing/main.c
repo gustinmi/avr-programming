@@ -1,6 +1,18 @@
 
 #include <avr/io.h>
 
+#define loop_until_bit_is_clear(port,bit) \
+__asm__ __volatile__ ( \
+"L_%=: " "sbic %0, %1 \n\t" \
+"rjmp L_%=" \
+: "=r" () \
+: "I" (_SFR_IO_ADDR(port)), \
+  "I" (bit)					 \
+)
+
+
+
+
 /* macro with assembler */
 
 /*
@@ -13,8 +25,20 @@ __SP_L__ Stack pointer low byte at address 0x3D
 __tmp_reg__ Register r0, used for temporary storage
 __zero_reg__ Register r1, always zero
 
-Register r0 may be freely used by your assembler code and need not be restored at the
-				 
+REGISTERS
+
+Fixed registers (r0, r1):
+	Never allocated by gcc for local data, but often used for fixed purposes. 
+	Register r0 may be freely used by your assembler code and need not be restored at the
+
+Call-used registers (r18-r27, r30-r31):
+	May be allocated by gcc for local data. You may use them freely in assembler subroutines. Calling C subroutines
+	can clobber any of them - the caller is responsible for saving and restoring.
+
+Call-saved registers (r2-r17, r28-r29):
+	Assembler subroutines are responsible for saving and restoring these registers, if changed. 
+	The requirement for the callee to save/preserve the
+	contents of these registers even applies in situations where the compiler assigns them for argument passing.
 */
 
 uint16_t delay_count = 4000;
@@ -82,18 +106,9 @@ int main(void)
 	
 	delay(1000);
 	
-	/*
 	
-	#define loop_until_bit_is_clear(port,bit) \
-	__asm__ __volatile__ ( \
-	"L_%=: " "sbic %0, %1" "\n\t" \
-	"rjmp L_%=" \
-	: 
-	: "I" (_SFR_IO_ADDR(port)),
-	"I" (bit)
-	)
 	
-	*/
+	
 
 	//indication to compiler, to hold local variables in registers.	
 	
